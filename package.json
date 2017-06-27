@@ -1,0 +1,28 @@
+{
+  "name": "floret",
+  "version": "1.0.0",
+  "description": "Reactive MicroService Framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@stash.acxiom.com:7999/at/floret.git"
+  },
+  "author": "Clint Brown",
+  "license": "ISC",
+  "dependencies": {
+    "koa": "^2.2.0",
+    "koa-body": "^2.1.0",
+    "koa-logger": "^3.0.0",
+    "koa-router": "^7.2.0",
+    "koa-static": "^3.0.0",
+    "node-fetch": "^1.7.1",
+    "path": "^0.12.7",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.1",
+    "rxjs": "^5.4.0"
+  }
+}
