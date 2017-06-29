@@ -59,66 +59,30 @@ describe('floret', () => {
 
     describe('initialize', () => {
         beforeEach(() => {
+            // floret = new Floret('fooService', 'https://some.host.service.next:3000');
            // floret.initialize();
-        });
-        it('should initialize', () => {
-            floret.initialize().then(() => {
-                expect(registerAPIStub.callCount === 1);
-            })
-        });
-
-        it('should have new pub object', () => {
-            floret.initialize().then(() => {
-                assert.exists(floret.pub, 'floret sub is not null or undefined');
-            });
-        });
-
-        it('should have new sub object', () => {
-            floret.initialize().then(() => {
-                assert.exists(floret.sub, 'floret sub is not null or undefined');
-            });
         });
 
         it('should have new gateway object', () => {
-            floret.initialize().then(() => {
-                assert.exists(floret.gateway, 'floret sub is not null or undefined');
-            });
+            assert.exists(floret.gateway, 'floret sub is not null or undefined');
+        });
+
+        it('should have new pub object', () => {
+            assert.exists(floret.pub, 'floret sub is not null or undefined');
+        });
+
+        it('should have new sub object', () => {
+            assert.exists(floret.sub, 'floret sub is not null or undefined');
         });
 
         it('should have new channel object', () => {
-            //registerAPIStub.restore();
-            console.log('here')
-            floret.getRegisteredAPIs.restore();
-            floret.initialize().then(() => {
-                console.log('apis: ' + floret.registeredAPIs);
-                assert.exists(floret.channel, 'floret sub is not null or undefined');
-
-            });
-
+            assert.exists(floret.channel, 'floret sub is not null or undefined');
         });
-
-
 
     });
 
     describe('core functions', () => {
-        let inst;
 
-        beforeEach(() => {
-            inst = floret.initialize()
-            registerAPIStub.resolves([{
-                'name': ''
-            }])
-        });
-
-        it('should resolve', () => {
-            inst.then(() => console.log('resovled'));
-        })
 
     });
-
-    //  describe('subscribe', () => {
-
-    //});
-
 });
