@@ -16,7 +16,7 @@ describe('floret', () => {
     it('should be imported with commonjs', () => {
         //let Floret = require('../lib/floret');
         assert.exists(Floret, 'Floret is not null or undefined');
-        
+
     });
 
     it('should throw an error without new keyword', () => {
@@ -26,18 +26,18 @@ describe('floret', () => {
         }).to.throw('Class constructor Floret cannot be invoked without \'new\'');
 
     });
+    /*
+     it('should throw an error if instantiated without params', () => {
+     //let Floret = require('../lib/floret');
+     expect(() => {
+     let x = new Floret()
+     }).to.throw('name and gatewayUri required');
 
-    it('should throw an error if instantiated without params', () => {
-        //let Floret = require('../lib/floret');
-        expect(() => {
-            let x = new Floret()
-        }).to.throw('name and gatewayUri required');
-
-    });
-
+     });
+     */
     it('should create a new object', () => {
-       // let Floret = require('../lib/floret');
-       // let floret = new Floret('fooService', 'some.host.service.next');
+        // let Floret = require('../lib/floret');
+        // let floret = new Floret('fooService', 'some.host.service.next');
         assert.exists(() => {
             let x = new floret()
 
@@ -45,14 +45,8 @@ describe('floret', () => {
 
     });
 
-    it('should have a gatewayUri', () => {
-        //let Floret = require('../lib/floret');
-        //let floret = new Floret('fooService', 'https://some.host.service.next:3000');
-        assert.isTrue(floret.gatewayUri === 'https://some.host.service.next:3000');
-    });
-
     it('should have a name', () => {
-       // let Floret = require('../lib/floret');
+        // let Floret = require('../lib/floret');
         //let floret = new Floret('fooService', 'https://some.host.service.next:3000');
         assert.isTrue(floret.name === 'fooService');
     });
@@ -60,7 +54,7 @@ describe('floret', () => {
     describe('initialize', () => {
         beforeEach(() => {
             // floret = new Floret('fooService', 'https://some.host.service.next:3000');
-           // floret.initialize();
+            // floret.initialize();
         });
 
         it('should have new gateway object', () => {
@@ -81,8 +75,16 @@ describe('floret', () => {
 
     });
 
-    describe('core functions', () => {
+    describe('core api functions', () => {
+        it('should create a new api', () => {
 
+        });
+
+        it('should handle requests to the api', () => {
+
+        });
 
     });
+
+
 });
