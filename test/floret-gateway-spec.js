@@ -3,7 +3,7 @@ const expect = require('chai').expect;
 const sinon = require('sinon');
 let Floret, floret;
 
-describe('gateway functions', () => {
+describe('As an API Gateway service, it ', () => {
 
     beforeEach(()=> {
         Floret = require('../lib/floret');

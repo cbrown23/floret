@@ -2,7 +2,7 @@ const assert = require('chai').assert;
 const expect = require('chai').expect;
 const sinon = require('sinon');
 
-describe('floret', () => {
+describe('As a Floret, it ', () => {
     let Floret, floret, registerAPIStub;
 
     beforeEach(() => {
@@ -51,7 +51,7 @@ describe('floret', () => {
         assert.isTrue(floret.name === 'fooService');
     });
 
-    describe('initialize', () => {
+    describe('should initialize and then it ', () => {
         beforeEach(() => {
             // floret = new Floret('fooService', 'https://some.host.service.next:3000');
             // floret.initialize();
@@ -74,17 +74,5 @@ describe('floret', () => {
         });
 
     });
-
-    describe('core api functions', () => {
-        it('should create a new api', () => {
-
-        });
-
-        it('should handle requests to the api', () => {
-
-        });
-
-    });
-
 
 });
