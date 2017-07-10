@@ -1,44 +1,59 @@
 const assert = require('chai').assert;
 const expect = require('chai').expect;
 const sinon = require('sinon');
-let Floret, floret;
+let Floret, floret, pub;
 
 describe('As a Publisher, it ', () => {
 
     beforeEach(()=> {
         Floret = require('../lib/floret');
         floret = new Floret('fooService', 'https://some.host.service.next:3000');
-    });
-
-
-    it('should create a new publisher when constructed', () => {
-
+        pub = new floret.pub('foo');
     });
 
     it('should fail if not all arguments passed to constructor', () => {
 
+        expect(() => {let f = new floret.pub()}).to.throw();
     });
 
-    it('should request subscribers list from subscription ms', () => {
-
-    });
-    
-    it('should create a new subscriber event endpoint', () => {
-        
+    it('should create a new publisher object', () => {
+        assert.isTrue(typeof pub === 'object');
     });
 
-    it('should construct a list of channel subscribers', () => {
+    it('should have a name', () => {
+        assert.isTrue(pub.name === 'foo');
+    });
+
+    describe('connects to the Publishing Service, and it ', () => {
+        let publisherName;
+
+        beforeEach(() => {
+            name = 'fooPublisher';
+
+        });
+
+        it('should register a new Publisher', () => {
+
+            //let api = floret.gateway.proxyURI + '/' + name + '/subscriberEvents';
+            //pub.register(name, api);
+
+        });
+
+        it('should update a Publisher', () => {
+
+
+        });
+
+        it('should remove a Publisher', () => {
+
+        });
+
+        it('should send name, type (channel, api), and content', () => {
+
+        });
 
     });
 
-    it('should send messages to subscriber endpoints', () => {
-
-    });
-
-    it('should update subscribers list on incoming request', () => {
-
-    });
-    
     it('should remove a publisher', () => {
 
     });
@@ -46,10 +61,4 @@ describe('As a Publisher, it ', () => {
     it('should update a publisher', () => {
 
     });
-    
-    it('should create a subscription to subscription events', () => {
-        
-    });
-    
-
 });
