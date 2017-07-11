@@ -10,7 +10,7 @@ describe('As an API Gateway service, it ', () => {
         floret = new Floret('fooService', 'https://some.host.service.next:3000');
     });
 
-    describe('admin', () => {
+    describe('provides an admin api, which', () => {
         it('should connect to the api gateway', () => {
 
         });

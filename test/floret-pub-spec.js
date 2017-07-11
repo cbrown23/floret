@@ -24,6 +24,14 @@ describe('As a Publisher, it ', () => {
         assert.isTrue(pub.name === 'foo');
     });
 
+    it('should remove a publisher', () => {
+
+    });
+
+    it('should update a publisher', () => {
+
+    });
+
     describe('connects to the Publishing Service, and it ', () => {
         let publisherName;
 
@@ -51,14 +59,6 @@ describe('As a Publisher, it ', () => {
         it('should send name, type (channel, api), and content', () => {
 
         });
-
-    });
-
-    it('should remove a publisher', () => {
-
-    });
-
-    it('should update a publisher', () => {
 
     });
 });
