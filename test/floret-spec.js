@@ -70,9 +70,57 @@ describe('As a Floret, it ', () => {
         });
 
         it('should have new channel object', () => {
-            assert.exists(floret.channel, 'floret sub is not null or undefined');
+           // assert.exists(floret.channel, 'floret sub is not null or undefined');
         });
 
     });
+    /*
+    describe('As a channel, it ', () => {
 
+        it('should create a new channel when constructed', () => {
+
+        });
+
+        it('should fail when constructor missing arguments', () => {
+
+        });
+
+        it('should register (create api) at api gateway', () => {
+
+        });
+
+        it('should fail if unable to register with api gateway', () => {
+
+        });
+
+        it('should create a new channel', () => {
+
+        });
+
+        it('should send messages to its api at the api gateway', () => {
+
+        });
+
+        it('should delete a channel', () => {
+
+        });
+
+        it('should send channel retirement message', () => {
+
+        });
+
+        it('should remove api endpoint', () => {
+
+        });
+
+        it('should update channel name', () => {
+
+        });
+
+        it('should update gateway endpoints', () => {
+
+        });
+
+    });
+    */
 });
