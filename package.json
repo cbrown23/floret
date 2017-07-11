@@ -16,8 +16,8 @@
   "dependencies": {
     "floret-gatekeeper": "git+ssh://git@stash.acxiom.com:7999/at/floret-gatekeeper.git",
     "floret-gateway": "git+ssh://git@stash.acxiom.com:7999/at/floret-gateway.git",
-    "floret-publication": "git+ssh://git@stash.acxiom.com:7999/at/floret-publication.git",
-    "floret-subscription": "git+ssh://git@stash.acxiom.com:7999/at/floret-subscription.git",
+    "floret-publisher": "git+ssh://git@stash.acxiom.com:7999/at/floret-publisher.git",
+    "floret-subscriber": "git+ssh://git@stash.acxiom.com:7999/at/floret-subscriber.git",
     "koa": "^2.2.0",
     "koa-body": "^2.1.0",
     "koa-logger": "^3.0.0",
