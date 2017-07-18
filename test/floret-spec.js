@@ -5,6 +5,57 @@ const sinon = require('sinon');
 describe('As a Floret, it ', () => {
     let Floret, floret, registerAPIStub;
 
+    it('should instantiate gateway client object', () => {
+
+    });
+
+    it('should instantiate a subscriber object', () => {
+
+    });
+
+    it('should instantiate a publisher object', () => {
+
+    });
+    
+    
+    it('should send messages to a publisher', () => {
+        f.send('publisherName', {'messageName': 'messageContent'}, (res) => {
+            console.log('message received');
+        });
+    });
+
+    it('should subscribe to service events', () => {
+
+    });
+
+    it('should create configurable endpoints for each subscription', () => {
+
+    });
+
+    it('should receive messages from a publisher for each subscription', () => {
+
+    });
+
+    it('should create a service', () => {
+
+    });
+
+    it('should provide a heartbeat endpoint', () => {
+
+    });
+
+    it('should register itself with its gateway service', () => {
+
+    });
+
+    it('should allow override of Subscriber module', () => {
+
+    });
+
+    it('should allow override of Publisher module', () => {
+        
+    });
+
     beforeEach(() => {
         Floret = require('../lib/floret');
         floret = new Floret('fooService', 'https://some.host.service.next:3000');
