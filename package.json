@@ -15,9 +15,10 @@
   "license": "ISC",
   "dependencies": {
     "floret-gatekeeper": "git+ssh://git@stash.acxiom.com:7999/at/floret-gatekeeper.git",
-    "floret-gateway": "git+ssh://git@stash.acxiom.com:7999/at/floret-gateway.git",
+    "floret-gateway": "git+ssh://git@stash.acxiom.com:7999/at/floret-gateway.git#develop",
     "floret-publisher": "git+ssh://git@stash.acxiom.com:7999/at/floret-publisher.git",
     "floret-subscriber": "git+ssh://git@stash.acxiom.com:7999/at/floret-subscriber.git",
+    "floret-channel": "git+ssh://git@stash.acxiom.com:7999/at/floret-channel.git#develop",
     "koa": "^2.2.0",
     "koa-body": "^2.3.0",
     "koa-logger": "^3.0.0",

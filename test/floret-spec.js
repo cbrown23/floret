@@ -17,13 +17,13 @@ describe('As a Floret, it ', () => {
 
     });
     
-    
+    /*
     it('should send messages to a publisher', () => {
         f.send('publisherName', {'messageName': 'messageContent'}, (res) => {
             console.log('message received');
         });
     });
-
+    */
     it('should subscribe to service events', () => {
 
     });
@@ -112,6 +112,7 @@ describe('As a Floret, it ', () => {
             assert.exists(floret.gateway, 'floret sub is not null or undefined');
         });
 
+        /*
         it('should have new pub object', () => {
             assert.exists(floret.pub, 'floret sub is not null or undefined');
         });
@@ -119,7 +120,7 @@ describe('As a Floret, it ', () => {
         it('should have new sub object', () => {
             assert.exists(floret.sub, 'floret sub is not null or undefined');
         });
-
+        */
         it('should have new channel object', () => {
            // assert.exists(floret.channel, 'floret sub is not null or undefined');
         });
