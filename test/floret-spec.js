@@ -126,6 +126,21 @@ describe('As a Floret, it ', () => {
         });
 
     });
+
+    describe('A a subscriber, ', () => {
+        it('should create a subscription endpoint', () =>{
+
+        });
+
+        it('should create a subscriber endpoint at the api gateway', () => {
+
+        });
+
+        it('should receive messages from the publishing service', () =>{
+
+        });
+
+    });
     /*
     describe('As a channel, it ', () => {
 
