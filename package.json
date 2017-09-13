@@ -19,6 +19,7 @@
     "floret-gateway": "git+ssh://git@stash.acxiom.com:7999/at/floret-gateway.git#develop",
     "floret-publisher": "git+ssh://git@stash.acxiom.com:7999/at/floret-publisher.git",
     "floret-subscriber": "git+ssh://git@stash.acxiom.com:7999/at/floret-subscriber.git#develop",
+    "floret-subscription": "git+ssh://git@stash.acxiom.com:7999/at/floret-subscription.git#develop",
     "floret-service": "git+ssh://git@stash.acxiom.com:7999/at/floret-service.git#develop",
     "floret-handler": "git+ssh://git@stash.acxiom.com:7999/at/floret-handler.git#develop",
     "koa": "^2.2.0",
