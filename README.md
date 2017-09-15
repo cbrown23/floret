@@ -6,7 +6,11 @@
 ![Floret Pattern](images/floret.png)
 
 ## Description
-Floret is a lightweight microservice framework.  Its event-driven architecture facilitates the orchestration of services to produce desired outcomes.  Each Floret service has a small scope of responsibility, and communicate directly with other Floret services via their REST APIs or with a built-in Pub/Sub system.
+Floret is a lightweight microservice framework.  Its event-driven architecture facilitates the orchestration
+of services to produce desired outcomes.  Each Floret service has a small scope of responsibility,
+and communicate directly with other Floret services via their REST APIs or with a built-in Pub/Sub system.
+
+![Event Flow](images/floret-illustration.png)
 
 Typical uses:
 
@@ -16,26 +20,25 @@ Typical uses:
 * Simple event handlers and emitters
 
 
+## Floret Ecosystem
+Floret services are event driven, publishing and subscribing to event data via a central API Gateway.  The illustration below
+is an example of a floret.  Each floret service provide specific functionality.
+
+![Ecosystem](images/floret-ecosystem-ex.png)
+
 ## Examples
-
-
-// code examples
+Refer to the [floret-examples](https://stash.acxiom.com/projects/ACXM/repos/floret-examples/browse) repository for working examples of use.
 
 ## Installation
-// local development
-// trying it out
+Floret is a node module, and is installed to your project via npm or similar package manager.
 
+npm install --save git+ssh://git@stash.acxiom.com:7999/acxm/floret.git#develop
 
-## Documentation
-
-// links to additional documentation in teh /docs folder
-    
 
 ## Contributing
 
-// contribution standards
+Contributions are made to this project by following [IT Open Source Standards](https://stash.acxiom.com/projects/AT/repos/it-development-standards/browse/docs/coding-standards/index.md)
 
 ## Reporting Issues
-// creating jira tickets
 
 ## Known Issues
