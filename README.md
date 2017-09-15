@@ -21,16 +21,17 @@ Typical uses:
 
 
 ## Floret Ecosystem
-Floret services are event driven, publishing and subscribing to event data via a central API Gateway.  The illustration below
-is an example of a floret.  Each floret service provide specific functionality.
+Floret services are event driven, publishing and subscribing to event data via a central API Gateway.  The illustration
+below is an example of a floret.  Each floret service provide specific functionality.
 
 ![Ecosystem](images/floret-ecosystem-ex.png)
 
 ## Examples
-Refer to the [floret-examples](https://stash.acxiom.com/projects/ACXM/repos/floret-examples/browse) repository for working examples of use.
+Refer to the [floret-examples](https://stash.acxiom.com/projects/ACXM/repos/floret-examples/browse) repository for
+working examples of use.
 
 ## Installation
-Floret is a node module, and is installed to your project via npm or similar package manager.
+Floret is a node module, and is installed to your project via npm or similar package manager.  
 
 npm install --save git+ssh://git@stash.acxiom.com:7999/acxm/floret.git#develop
 
