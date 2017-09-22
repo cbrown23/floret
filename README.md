@@ -38,7 +38,7 @@ Floret is a node module, and is installed to your project via npm or similar pac
 
     npm install --save git+ssh://git@stash.acxiom.com:7999/acxm/floret.git#develop
 
-#### Creating a simple service
+#### Creating a floret service
 
     // keep the config in a separate file or in environment variables
     const floretConfig = {  
@@ -92,8 +92,10 @@ Add custom API endpoints to the built-in floret http server.
 ### Pub/Sub
 Floret has a built-in pub/sub model for event-driven communication with other floret services.  
 Publishers emit messages to specific channels that are subscribed to by 0-n services.  A subscription  
-to a channel in effect means that the published messages will be POSTed to the subscriber-provided 
+to a channel in effect means that the published messages will be POSTed to the subscriber-provided  
 api endpoint.
+
+Subscriptions can be created dynamically after both the Publisher and Subscriber services are active.  
 
 #### Channels
 Messages are published to channels, and channels can be subscribed to.  Channels can be built  
