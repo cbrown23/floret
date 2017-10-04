@@ -1,24 +1,22 @@
 # Floret.js
-###  A  reactive microservice framework
+###  A microservice framework for distributed systems
 
 *floret - Noun: one of the small flowers making up a composite flower head.* 
 
-Floret is a lightweight microservice framework.  Its event-driven architecture facilitates the orchestration  
-of services to produce desired outcomes.  Each Floret service has a small scope of responsibility,  
-and communicate directly with other Floret services via their REST APIs or with a built-in Pub/Sub system.
+Floret is a lightweight microservice framework.  With Floret you will build consistent and  
+connected RESTful services that leverage event-driven messaging to orchestrate workloads.
 
 ### Floret is great for
 
-* Building small, consistent, scalable RESTful APIs
-* Proxying existing service apis
-* Webhook ingress endpoints
+* RESTful APIs
+* Web Applications
+* Existing Service and API proxies
+* Webhooks
+* Lambda
 * Self-healing strategies
-* Rapid development of POCs
+* Notify and forget strategies
 * Data transformations
-* Publish and forget strategies
-* Lambda implementations
-* Orchestrating asynchronous service processes
-* ...event-driven processes
+* Asynchronous service processes
 
 ![Event Flow](images/floret-illustration.png)
 
@@ -39,8 +37,10 @@ Floret is a node module, and is installed to your project via npm or similar pac
     npm install --save git+ssh://git@stash.acxiom.com:7999/acxm/floret.git#develop
 
 #### Creating a floret service
+Create a floret configuration file for your service or application
+    
+floret.json
 
-    // keep the config in a separate file or in environment variables
     const floretConfig = {  
         "gatewayHost": "http://127.0.0.1", // api gateway host url  
         "gatewayProxyPort": 8000, // proxy port for service requests  
@@ -51,17 +51,23 @@ Floret is a node module, and is installed to your project via npm or similar pac
         "serviceURI": "/example-service" // floret service base uri  
     }  
 
+index.js
+
+    const fs = require('fs');
     const Floret = require('floret');  
+    
+    const floretConfig = JSON.parse(fs.readFileSync('floret.json', 'utf8'));
     const floret = new Floret(floretConfig);  
 
-    floret.listen( (ctx)=>{  
-        console.log(`Floret Service started on port ${floretConfig.servicePort}`;  
+    floret.listen( ()=>{  
+        console.log(`Floret Service started on port ${floret.port}`;  
     });  
 
 #### Custom APIs
 Add custom API endpoints to the built-in floret http server.
 
-    // app/routes/routes.js
+app/routes/routes.js
+
     module.exports = (app) => {
         app.router.get('/hello-world', async(ctx, next) => {
             ctx.body = "Hello World";
@@ -127,65 +133,95 @@ Dynamic channel -- web server already started
     floret.initChannel(soapboxChannel);
     ...
     
-##### Create a new channel on-demand
-This would create a post route for handling new channel requests
-    
-    ...
-    // create a post route for new channels of namespace "foo" 
-    floret.router.post('/channel/foo/:name', async(ctx, next) => {
-        let channelName = ctx.params.name;
-        console.log(`creating on-demand channel ${channelName}`)
-        let pub = app.getPublisher(channelName);
+##### Create a post route for creating new channels
+    // create new channels under the /rooms/ uri
+    floret.router.post('/rooms/:channel', async (ctx, next) => {
+        let channelName = ctx.params.channel;
+        let channel = app.channels[channelName];
 
-        if (!pub) {
-            // create a new channel
-            let newChannel = new app.Channel({
-                "name": channelName,
-                "description": "create new foo subject channels",
+        if (!channel){
+            let newChannel = new floret.Channel({
+                "name": room,
+                "description": "general topics",
+                "endpoint": `${floret.url}/rooms/${channel}`,
+                "serviceName": floret.name,
                 "hostURL": floret.host,
                 "hostPort": floret.url,
-                "uri": "/foo/" + channelName
+                "uri": "/rooms/" + channelName
             });
-            await app.initChannel(newChannel);
-
-        } else {
-            console.log('channel exists');
+            
+            await app.addChannel(newChannel);
         }
-
-        if (ctx.body){
-            // first message on channel
-            app.broadcast(channelName, ctx.body)
-        }
-       
     });
 
 
 #### Subscriptions
-Subscribing to another service creates a new Subscription.  The Subscription creates an  
-api endpoint to handle new messages from a channel publisher(s). It also contains  
-information about how to map incoming REST Posts to appropriate Handler functions.  
+Similar to a webhook, a subscription is the landing spot for incoming service events you  
+are subscribed to.  The Subscription creates an api route to handle incoming messages.
 
 ##### Create a new subscription
     
     ...
     const floret = new Floret(floretConfig);
+    
     // creates a new handler function    
-    let incomingMessageHandler = new floret.Handler('messageHandler', (ctx) => {
-        let {user, message, room} = ctx.body.package;
-        console.log(`${user}@${room}: ${message}`)
+    let fooHandler = (ctx) => {
+        let pkg = new floret.Package(ctx.body);
+        console.log('received message: ' + JSON.stringify(pkg.payload))
     });
+    
+    let barHandler = (ctx) => {
+        let pkg = new floret.Package(ctx.body);
+        console.log('received message: ' + JSON.stringify(pkg.payload))
+    });
+    
     // create a subscription object    
-    let chatSubscription = new floret.Subscription('chatSubscription', incomingMessageHandler, floret.service, floret.router, floret.gateway);
+    let bazSubscription = new floret.Subscription('fooSubscription', floret.service, floret.router, floret.gateway);
+    
+    // attach 1 or more handler functions to the subscription event 
+    bazSubscription.observable.subscribe(fooHandler);
+    bazSubscription.observable.subscribe(barHandler);
     
     // add to array of subscriptions, which will be invoked during floret initialization
-    floret.subscriptions = [chatSubscription];
+    floret.addSubscription(bazSubscription);
+    ...
 
+##### Subscribe to a Floret Service
+Programmatically
+
+    ...
     floret.listen().then(() =>{
-        console.log('client service started');
-    }).catch( (e) =>{
-        console.log('error init channel foo,' + e.message );
-    });
+        // subscribe to a service once floret is up.  specify a subscription
+        let subscriberId = floret.subscribe('baz', 'bazChannel', bazSubscription);
+    })
 
+Via REST API
+    
+    POST http://api-gateway:8000/baz/subscribe/
+    Content-Type application/json
+    body:
+    {
+        "name": "example-service",
+        "url": "http://192.168.1.158:8084/example-service/subscription/bazSubscription",
+        "channel": "bazChannel"
+    }
+    
+##### Unsubscribe from a Floret Service
+Programmatically
+
+    ...
+    floret.unsubscribe('baz', 'bazChannel', subscriberId);
+    
+Via REST API
+
+    POST http://api-gateway:8000/baz/unsubscribe/
+    Content-Type application/json
+    body:
+    {
+        "channelName": "baz",
+        "url": "http://192.168.1.158:8084/example-service/subscription/bazSubscription",
+        "channel": "bazChannel"
+    }
 
 #### Channel and Subscriber discovery process
 
