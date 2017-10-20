@@ -30,9 +30,11 @@ will:
 * discover subscriptions to other floret services
 * create an admin api for managing pub/sub operations
 
+### Getting started with Floret
+Use [this guide](docs/getting-started.md) to get up and running with Floret.
 
 ### Installation
-Floret is a node module, and is installed to your project via npm or similar package manager.  
+Make sure you've read the getting started (see above) and your environment is created. Floret is a node module, and is installed to your project via npm or similar package manager.  
 
     npm install --save git+ssh://git@stash.acxiom.com:7999/acxm/floret.git#develop
 

@@ -5,6 +5,9 @@ const sinon = require('sinon');
 describe('As a Floret, it ', () => {
     let Floret, floret, registerAPIStub;
 
+
+    
+
     it('should instantiate gateway client object', () => {
 
     });
