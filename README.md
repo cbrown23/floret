@@ -65,6 +65,11 @@ index.js
         console.log(`Floret Service started on port ${floret.port}`;  
     });  
 
+
+#### Floret Class Spec
+See here for [floret methods](/docs/jsdoc-index.md)
+
+
 #### Custom APIs
 Add custom API endpoints to the built-in floret http server.
 
