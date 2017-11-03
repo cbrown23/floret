@@ -266,6 +266,9 @@ above your api like this:
     })
 
 
+Once your documentation if registered with floret api-doc service, it will appear in swagger ui.
+
+![Swagger UI](images/swagger-ui.png)
 
 ## Floret Ecosystem
 Floret services are event driven, publishing and subscribing to event data via a central API Gateway.  The illustration  
