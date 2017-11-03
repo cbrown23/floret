@@ -26,6 +26,7 @@ will:
 
 * self-register with the api gateway
 * create healthcheck and new subscriber apis at the gateway and web server
+* automatically generate Open API spec
 * discover channels and their subscribers
 * discover subscriptions to other floret services
 * create an admin api for managing pub/sub operations
@@ -238,6 +239,32 @@ is created, subscribers of each channel are discovered.  They are attached and b
 
 Self-discovery of channels and subscribers allows horizontal scaling of floret services that stand up and  
 become aware of the services current state.    
+
+#### Documentation
+
+Floret creates an Open API spec for your api at bootstrap.  It exposes a /api-spec.json endpoint, and this url can be
+consumer by viewing applications.  One such application may be Swagger UI, which is deployed as a floret core service called
+api-doc.  Upon standing up, a notification of new documentation is sent to api-doc, which in turn hosts the spec.
+
+### Documenting Custom APIs
+
+If you added custom apis with your service, you'll want to document them in the Open API spec.  To do so, just add annotations
+above your api like this:
+
+    /**
+     * @swagger
+     * /test/it/out:
+     *   get:
+     *     description: test doc
+     *     responses:
+     *       200:
+     *         description: bar bang
+     *     tags: [pulse]
+     */
+    floret.router.get('/test/it/out', (ctx) => {
+        console.log('test/it/out')
+    })
+
 
 
 ## Floret Ecosystem
