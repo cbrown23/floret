@@ -243,7 +243,7 @@ become aware of the services current state.
 ### Documentation
 
 Floret creates an Open API spec for your api at bootstrap.  It exposes a /api-spec.json endpoint, and this url can be
-consumer by viewing applications.  One such application may be Swagger UI, which is deployed as a floret core service called
+used by consuming applications.  One such application may be Swagger UI, which is deployed as a floret core service called
 api-doc.  Upon standing up, a notification of new documentation is sent to api-doc, which in turn hosts the spec.
 
 #### Documenting Custom APIs
@@ -266,7 +266,7 @@ above your api like this:
     })
 
 
-Once your documentation if registered with floret api-doc service, it will appear in swagger ui.
+Once your documentation is registered with floret api-doc service, it will appear in swagger ui.
 
 ![Swagger UI](images/swagger-ui.png)
 
