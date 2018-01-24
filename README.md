@@ -37,8 +37,6 @@ Use [this guide](docs/getting-started.md) to get up and running with Floret.
 ### Installation
 Make sure you've read the getting started (see above) and your environment is created. Floret is a node module, and is installed to your project via npm or similar package manager.  
 
-    npm install --save git+ssh://git@stash.acxiom.com:7999/acxm/floret.git#develop
-
 #### Creating a floret service
 Create a floret configuration file for your service or application
     
@@ -277,7 +275,7 @@ below is an example of a floret.  Each floret service provide specific functiona
 ![Ecosystem](images/floret-ecosystem-ex.png)
 
 ## Examples
-You can find full example projects at [floret-examples](https://stash.acxiom.com/projects/ACXM/repos/floret-examples/browse).
+You can find full example projects at [floret-examples](tbd).
 
 ## Authors
 [clint brown - clint.brown.atx@gmail.com](mailto:clint.brown.atx@gmail.com) | [github - cbrown23](https://github.com/cbrown23)

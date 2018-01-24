@@ -39,15 +39,8 @@ describe('Floret', () => {
     let spy;
     // start floret service
 
-
     let rpPostStub, rpGetStub;
     before (async () => {
-
-
-
-
-        //await rp({"uri": "http://json.com"})
-
         request = sinon.stub(rp, 'Request');
         request.resolves({
               "statusCode": 200
@@ -72,10 +65,6 @@ describe('Floret', () => {
 
         return request;
     });
-
-
-
-
 
     it('should have a healthcheck endpoint', async () => {
          //requestStub.yields(null, {statusCode: 200}, {login: "bulkan"});
@@ -214,11 +203,16 @@ describe('Floret', () => {
 
     describe('Channels', () => {
 
-        let channels, testChannel;
+        let channels, testChannel, rpSpy, handlerFn;
 
         before(async () => {
             // create a new channel
             let testName = "channel-test";
+            handlerFn=  (options) => {
+                return rp.post(options);
+            };
+            rpSpy = sinon.spy(handlerFn);
+
             testChannel = new floret.Channel(
                 {
                     "name": "channel-test",
@@ -228,16 +222,14 @@ describe('Floret', () => {
                     "hostURL": floret.host,
                     "hostPort": floret.port,
                     "uri": "/events/" + testName
-                }
+                }, handlerFn
             );
 
-            console.log('adding new id channel')
             await floret.addChannel(testChannel);
             channel = floret.channels[testName];
 
             let subCallback = sinon.stub();
             // create a subscriber
-            //console.log(`${floret.url}/${serviceName}/subscribe`)
             let res = await
                 request
                     .post(floret.baseURI + '/subscribe')
@@ -245,10 +237,6 @@ describe('Floret', () => {
 
 
             let key = JSON.parse(res.text).name;
-            console.log('***' + key);
-            console.log(floret.channels['channel-test'].subscribers[key]);
-
-
         });
 
         it('should initialize all channels', () =>{
@@ -277,8 +265,6 @@ describe('Floret', () => {
                 }
             )
             let res = await floret.addChannel(newChan);
-            console.log("result from res: " + JSON.stringify(res));
-            console.log(JSON.stringify(floret.channels));
             channel = floret.channels[testName];
 
             assert.isObject(channel);
@@ -288,11 +274,29 @@ describe('Floret', () => {
             assert.isObject(floret.channels["channel-test"].config());
         });
 
+
+        it('should broadcast', async () => {
+            let script = new floret.Subscription('testScript', floret.service, floret.router, floret.gateway);
+            let ob = () => {
+                console.log('*************** received')
+            };
+            await script.init();
+            await script.observable.subscribe(ob);
+            await script.observable.next('cool');
+            let spy = sinon.stub(floret.channels['channel-test'], 'handler').callsFake( () => {
+
+            });
+
+            await floret.channels['channel-test'].broadcast('unit-test-floret', {"foo": "Bar"});
+
+    });
+
         it('should update a channel', () =>{
 
         });
 
         it('should delete a channel', () =>{
+
 
         });
 
@@ -387,7 +391,7 @@ describe('Floret', () => {
             await script.createSubscriptionEndpoint();
 
             let onIncoming = (msg) => {
-                console.log('msg: ' + JSON.stringify(msg))
+                console.log('Sub observed change')
                 assert.isObject(msg);
                 return msg;
             };
@@ -398,7 +402,7 @@ describe('Floret', () => {
             let res = await request
                 .post(floret.baseURI + script.uri)
                 .send(pkg.toJSON())
-                .expect(200)
+                .expect(200);
             sub.unsubscribe();
 
         });
@@ -640,7 +644,7 @@ describe('Floret', () => {
             let oldName = service.name;
             service.name = 'newName';
             assert(oldName !== service.name)
-        })
+        });
 
         it('should return a host', ()=> {
             assert.isString(service.host);
@@ -650,7 +654,8 @@ describe('Floret', () => {
             let oldHost = service.host;
             service.host = 'http://new.com';
             assert(oldHost !== service.host)
-        })
+        });
+
         it('should return a proxyURI', ()=> {
             assert.isString(service.proxyURI);
         });
