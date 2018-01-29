@@ -1,4 +1,5 @@
-# Floret.js
+# Floret.js 
+![Event Flow](images/floret-logo.png)
 ###  A microservice framework for distributed systems
 
 *floret - Noun: one of the small flowers making up a composite flower head.* 
