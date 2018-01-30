@@ -1,13 +1,14 @@
 # Floret.js 
 ![Event Flow](images/floret-logo.png)
-###  A microservice framework for distributed systems
+###  A microservice framework for node
 
 *floret - Noun: one of the small flowers making up a composite flower head.* 
 
-Floret is a lightweight microservice framework.  With Floret you will build consistent and  
-connected RESTful services that leverage event-driven messaging to orchestrate workloads.
+Floret is a lightweight microservice api framework.  With Floret, consistent and  
+connected RESTful services leverage event-based messaging to choreograph workloads.
+Floret services communicate through an API Gateway.
 
-### Floret is great for
+### Floret.js is great for
 
 * RESTful APIs
 * Web Applications
@@ -44,11 +45,11 @@ Create a floret configuration file for your service or application
 floret.json
 
     const floretConfig = {  
-        "gatewayHost": "http://127.0.0.1", // api gateway host url  
+        "gatewayHost": "http://foo.gw.net", // api gateway host url  
         "gatewayProxyPort": 8000, // proxy port for service requests  
         "gatewayAdminPort": 8001, // api gateway administration api  
         "serviceName": "example-service", // floret service name  
-        "serviceHost": "http://10.19.184.44", // floret service url  
+        "serviceHost": "http://foo.service.net", // floret service url  
         "servicePort": 8084, // floret service port  
         "serviceURI": "/example-service" // floret service base uri  
     }  
@@ -68,7 +69,6 @@ index.js
 
 #### Floret Class Spec
 See here for [floret methods](/docs/jsdoc-index.md)
-
 
 #### Custom APIs
 Add custom API endpoints to the built-in floret http server.
@@ -104,16 +104,16 @@ app/routes/routes.js
 
 ### Pub/Sub
 Floret has a built-in pub/sub model for event-driven communication with other floret services.  
-Publishers emit messages to specific channels that are subscribed to by 0-n services.  A subscription  
-to a channel in effect means that the published messages will be POSTed to the subscriber-provided  
-api endpoint.
+Publishers emit messages on subscribable channels.  A subscription to a channel in effect means 
+that the published messages will be POSTed to the subscriber-provided api endpoint.
 
 Subscriptions can be created dynamically after both the Publisher and Subscriber services are active.  
 
 #### Channels
-Messages are published to channels, and channels can be subscribed to.  Channels can be built  
-at application authoring or dynamically with the admin api.
-    
+Messages are published to channels, and channels can be subscribed to.  Channels can be  
+defined statically or dynamically.
+
+##### Static Channel
     const soapboxConfig = {
         "name": "soapbox",
         "description": "a channel for rants",
@@ -122,25 +122,13 @@ at application authoring or dynamically with the admin api.
         "uri": "/soapbox"
     };
     
-    
-Authored channel
-    
     ...
     let soapboxChannel = new floret.Channel(soapboxConfig);
     floret.channels = [soapboxChannel];
     floret.listen(()=>{});
     ...
     
- 
-    
-Dynamic channel -- web server already started    
-    
-    ...
-    let soapboxChannel = new floret.Channel(soapboxConfig);
-    floret.initChannel(soapboxChannel);
-    ...
-    
-##### Create a post route for creating new channels
+##### Dynamic Channel
     // create new channels under the /rooms/ uri
     floret.router.post('/rooms/:channel', async (ctx, next) => {
         let channelName = ctx.params.channel;
@@ -163,10 +151,9 @@ Dynamic channel -- web server already started
 
 
 #### Subscriptions
-Similar to a webhook, a subscription is the landing spot for incoming service events you  
-are subscribed to.  The Subscription creates an api route to handle incoming messages.
+Similar to a webhook, a subscription is the configured landing spot for incoming service messages.
 
-##### Create a new subscription
+##### Create a new subscription with multiple handlers
     
     ...
     const floret = new Floret(floretConfig);
@@ -193,16 +180,14 @@ are subscribed to.  The Subscription creates an api route to handle incoming mes
     floret.addSubscription(bazSubscription);
     ...
 
-##### Subscribe to a Floret Service
-Programmatically
-
+##### Subscribe to a Floret Service by name and channel
     ...
     floret.listen().then(() =>{
         // subscribe to a service once floret is up.  specify a subscription
         let subscriberId = floret.subscribe('baz', 'bazChannel', bazSubscription);
     })
 
-Via REST API
+##### Subscribe a Floret Service to another via the REST API
     
     POST http://api-gateway:8000/baz/subscribe/
     Content-Type application/json
@@ -213,13 +198,11 @@ Via REST API
         "channel": "bazChannel"
     }
     
-##### Unsubscribe from a Floret Service
-Programmatically
-
+##### Unsubscribe from a Floret Service 
     ...
     floret.unsubscribe('baz', 'bazChannel', subscriberId);
     
-Via REST API
+##### Unsubscribe a Floret Service from another via the REST API
 
     POST http://api-gateway:8000/baz/unsubscribe/
     Content-Type application/json
@@ -241,7 +224,7 @@ become aware of the services current state.
 
 ### Documentation
 
-Floret creates an Open API spec for your api at bootstrap.  It exposes a /api-spec.json endpoint, and this url can be
+Floret creates an Open API spec for your api at bootstrap.  It exposes a /api-spec.json resource, and this url can be
 used by consuming applications.  One such application may be Swagger UI, which is deployed as a floret core service called
 api-doc.  Upon standing up, a notification of new documentation is sent to api-doc, which in turn hosts the spec.
 
@@ -268,6 +251,10 @@ above your api like this:
 Once your documentation is registered with floret api-doc service, it will appear in swagger ui.
 
 ![Swagger UI](images/swagger-ui.png)
+
+## Core libraries
+Floret is built upon [KOA](https://github.com/koajs/koa).  KOA provides the http middleware framework for writing web applications and apis.
+Floret uses reactive programming concepts to handle observable incoming events.  See [rxjs](http://reactivex.io/rxjs/) for more details.
 
 ## Floret Ecosystem
 Floret services are event driven, publishing and subscribing to event data via a central API Gateway.  The illustration  
