@@ -26,16 +26,28 @@ describe('Floret', () => {
         serviceName = "unit-test-floret",
         serviceURI = "/unit-test-floret"
 
-    let floretConfig = new floret.Config(
-    {
-        "gatewayHost": gatewayHost,
-        "gatewayProxyPort": gatewayProxyPort,
-        "gatewayAdminPort": gatewayAdminPort,
-        "servicePort": servicePort,
-        "serviceHost": serviceHost,
-        "serviceName": serviceName,
-        "serviceURI": serviceURI
-    });
+    let floretConfig = {
+            "environments": {
+                "local":
+                    {
+                        "gatewayHost":
+                        gatewayHost,
+                        "gatewayProxyPort":
+                        gatewayProxyPort,
+                        "gatewayAdminPort":
+                        gatewayAdminPort,
+                        "servicePort":
+                        servicePort,
+                        "serviceHost":
+                        serviceHost,
+                        "serviceName":
+                        serviceName,
+                        "serviceURI":
+                        serviceURI
+                    }
+            },
+            "publishDocs": true
+        };
     let spy;
     // start floret service
 
@@ -56,12 +68,11 @@ describe('Floret', () => {
             fakedResponse: 'Get will return exactly this'
         }));
 
-
-        floret.configure(floretConfig.params);
+        floret.configure(floret.createEnvConfig(floretConfig));
         require('./gateway.stubs')(sinon, floret);
 
         server =  await floret.listen();
-        request = supertest(server);
+        request = await supertest(server);
 
         return request;
     });
@@ -98,7 +109,7 @@ describe('Floret', () => {
     });
 
     it('should return its baseURL', () =>{
-        expect(floret.baseURL).equals(serviceHost + ":" + servicePort + "/" + serviceName);
+        expect(floret.baseURL).equals('http://' + serviceHost + ":" + servicePort + "/" + serviceName);
     });
 
     it('should return its url', () =>{
@@ -508,14 +519,37 @@ describe('Floret', () => {
         let gw, gwSpy, rpSpy, rpStub;
         let rp = require('request-promise');
         before (async () => {
-            floret.configure(floretConfig.params);
+            floretConfig = {
+                "environments": {
+                    "local":
+                        {
+                            "gatewayHost":
+                            gatewayHost,
+                            "gatewayProxyPort":
+                            gatewayProxyPort,
+                            "gatewayAdminPort":
+                            gatewayAdminPort,
+                            "servicePort":
+                            servicePort,
+                            "serviceHost":
+                            serviceHost,
+                            "serviceName":
+                            serviceName,
+                            "serviceURI":
+                            serviceURI
+                        }
+                },
+                "publishDocs": true
+            };
+            //floret = new Floret();
+            floret.configure(floret.createEnvConfig(floretConfig));
             gw = floret.gateway;
-            // require('./gateway.stubs')(sinon, floret);
+            //require('./gateway.stubs')(sinon, floret);
 
         });
 
         beforeEach(() => {
-            gwSpy = sinon.spy(floret.gateway, 'send');
+            gwSpy = sinon.spy(gw, 'send');
         });
         afterEach(() => {
             gwSpy.restore();
@@ -550,7 +584,6 @@ describe('Floret', () => {
             rpGetStub.rejects({"statusCode": 409})
             let spy = sinon.spy(gw, 'suppress409');
             let res = await gw.send({"uri": "foo.bar", "method": "get"})
-            console.log('res' + JSON.stringify(res));
             expect(spy).to.throw();
             spy.restore();
         });
@@ -560,10 +593,11 @@ describe('Floret', () => {
             let spy = sinon.spy(gw, 'suppress409');
 
             try {
-               await gw.send({"uri": "foo.bar", "method": "get"})
-            } catch(e){console.log(e)};
+               await gw.send({"uri": "foo.bar", "method": "get"}).then( () => {
+                   assert(spy.callCount === 1);
+               })
 
-            assert(spy.callCount === 1);
+            } catch(e){console.log(e)};
         })
     });
 
