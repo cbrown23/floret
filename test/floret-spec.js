@@ -18,11 +18,11 @@ describe('Floret', () => {
     let floret = new Floret();
     let server, request;
     const
-        gatewayHost = "http://127.0.0.1",
+        gatewayHost = "127.0.0.1",
         gatewayProxyPort = 8000,
         gatewayAdminPort = 8001,
         servicePort = 8096,
-        serviceHost = "http://127.0.0.1",
+        serviceHost = "127.0.0.1",
         serviceName = "unit-test-floret",
         serviceURI = "/unit-test-floret"
 
@@ -422,7 +422,7 @@ describe('Floret', () => {
 
         it('should return Subscription class', () =>{
             let Subscription = floret.Subscription;
-            let subscription = new Subscription();
+            let subscription = new Subscription('foo', floret.service, floret.router, floret.gateway);
             assert.instanceOf(subscription, Subscription);
         });
     });
@@ -522,34 +522,34 @@ describe('Floret', () => {
         });
 
         it('should send http get requests',async () => {
-            let res = await gw.send({"uri": "http://foo.cool.bar"});
+            let res = await gw.send({"uri": "foo.cool.bar"});
             assert(gwSpy.callCount === 1);
         });
 
         it('should send http post requests', async () => {
-            let res = await gw.send({"uri": "http://foo.cool.bar", "method": "post"});
+            let res = await gw.send({"uri": "foo.cool.bar", "method": "post"});
             assert(gwSpy.callCount === 1);
         });
 
         it('should send http delete requests', async () => {
-            let res = await gw.send({"uri": "http://foo.cool.bar", "method": "del"});
+            let res = await gw.send({"uri": "foo.cool.bar", "method": "del"});
             assert(gwSpy.callCount === 1);
         });
 
         it('should send http put requests', async () => {
-            let res = await gw.send({"uri": "http://foo.cool.bar", "method": "put"});
+            let res = await gw.send({"uri": "foo.cool.bar", "method": "put"});
             assert(gwSpy.callCount === 1);
         });
 
         it('should send http patch requests', async () => {
-            let res = await gw.send({"uri": "http://foo.cool.bar", "method": "patch"});
+            let res = await gw.send({"uri": "foo.cool.bar", "method": "patch"});
             assert(gwSpy.callCount === 1);
         });
 
         it('should suppress 409 errors', async () => {
             rpGetStub.rejects({"statusCode": 409})
             let spy = sinon.spy(gw, 'suppress409');
-            let res = await gw.send({"uri": "http://foo.bar", "method": "get"})
+            let res = await gw.send({"uri": "foo.bar", "method": "get"})
             console.log('res' + JSON.stringify(res));
             expect(spy).to.throw();
             spy.restore();
@@ -560,7 +560,7 @@ describe('Floret', () => {
             let spy = sinon.spy(gw, 'suppress409');
 
             try {
-               await gw.send({"uri": "http://foo.bar", "method": "get"})
+               await gw.send({"uri": "foo.bar", "method": "get"})
             } catch(e){console.log(e)};
 
             assert(spy.callCount === 1);
