@@ -27,6 +27,10 @@ describe('Floret', () => {
         serviceURI = "/unit-test-floret"
 
     let floretConfig = {
+            "name": serviceName,
+            "port": servicePort,
+            "uri": serviceURI,
+            "host": serviceHost,
             "environments": {
                 "local":
                     {
@@ -35,15 +39,7 @@ describe('Floret', () => {
                         "gatewayProxyPort":
                         gatewayProxyPort,
                         "gatewayAdminPort":
-                        gatewayAdminPort,
-                        "servicePort":
-                        servicePort,
-                        "serviceHost":
-                        serviceHost,
-                        "serviceName":
-                        serviceName,
-                        "serviceURI":
-                        serviceURI
+                        gatewayAdminPort
                     }
             },
             "publishDocs": true
@@ -520,6 +516,10 @@ describe('Floret', () => {
         let rp = require('request-promise');
         before (async () => {
             floretConfig = {
+                "name": serviceName,
+                "port": servicePort,
+                "uri": serviceURI,
+                "host": serviceHost,
                 "environments": {
                     "local":
                         {
@@ -529,14 +529,6 @@ describe('Floret', () => {
                             gatewayProxyPort,
                             "gatewayAdminPort":
                             gatewayAdminPort,
-                            "servicePort":
-                            servicePort,
-                            "serviceHost":
-                            serviceHost,
-                            "serviceName":
-                            serviceName,
-                            "serviceURI":
-                            serviceURI
                         }
                 },
                 "publishDocs": true
