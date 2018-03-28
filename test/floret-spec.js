@@ -7,8 +7,10 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const Bluebird = require('bluebird');
 const Rx = require('rxjs');
+const ip = require('ip');
 let rp = require('request-promise');
 let request = require('request');
+
 
 chai.use(chaiHttp);
 
@@ -18,32 +20,32 @@ describe('Floret', () => {
     let floret = new Floret();
     let server, request;
     const
-        gatewayHost = "127.0.0.1",
+        gatewayHost = ip.address(),
         gatewayProxyPort = 8000,
         gatewayAdminPort = 8001,
         servicePort = 8096,
-        serviceHost = "127.0.0.1",
+        serviceHost = ip.address(),
         serviceName = "unit-test-floret",
-        serviceURI = "/unit-test-floret"
+        serviceURI = "/unit-test-floret";
 
-    let floretConfig = {
-            "name": serviceName,
-            "port": servicePort,
-            "uri": serviceURI,
-            "host": serviceHost,
-            "environments": {
-                "local":
-                    {
-                        "gatewayHost":
-                        gatewayHost,
-                        "gatewayProxyPort":
-                        gatewayProxyPort,
-                        "gatewayAdminPort":
-                        gatewayAdminPort
-                    }
-            },
-            "publishDocs": true
-        };
+    let config = {
+        "name": serviceName,
+        "port": servicePort,
+        "uri": serviceURI,
+        "host": serviceHost,
+        "root": "../",
+        "environments": {
+            local:
+                {
+                    gatewayHost: gatewayHost,
+                    gatewayProxyPort: gatewayProxyPort,
+                    gatewayAdminPort: gatewayAdminPort
+                }
+        },
+        publishDocs: true
+    };
+
+    let floretConfig = new floret.Config(config);
     let spy;
     // start floret service
 
@@ -64,7 +66,8 @@ describe('Floret', () => {
             fakedResponse: 'Get will return exactly this'
         }));
 
-        floret.configure(floret.createEnvConfig(floretConfig));
+        floret.configure(floretConfig);
+
         require('./gateway.stubs')(sinon, floret);
 
         server =  await floret.listen();
@@ -533,8 +536,10 @@ describe('Floret', () => {
                 },
                 "publishDocs": true
             };
+
+            let newConfig = new floret.Config(floretConfig);
             //floret = new Floret();
-            floret.configure(floret.createEnvConfig(floretConfig));
+            floret.configure(newConfig);
             gw = floret.gateway;
             //require('./gateway.stubs')(sinon, floret);
 
