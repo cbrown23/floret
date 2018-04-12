@@ -4,9 +4,15 @@
 
 *floret - Noun: one of the small flowers making up a composite flower head.* 
 
-Floret is a lightweight microservice api framework.  With Floret, consistent and  
+Floret is a lightweight micro service framework.  Floret micro services are persistently connected through 
+an api gateway.  Its pub/sub allows you to specify dataflows to apis.  
+
+With Floret, consistent and  
 connected RESTful services leverage event-based messaging to choreograph workloads.
 Floret services communicate through an API Gateway.
+ 
+
+With floret you can choreograph workloads across 
 
 ### Floret.js is great for
 
@@ -28,7 +34,7 @@ will:
 
 * self-register with the api gateway
 * create healthcheck and new subscriber apis at the gateway and web server
-* automatically generate Open API spec
+* generate an Open API spec
 * discover channels and their subscribers
 * discover subscriptions to other floret services
 * create an admin api for managing pub/sub operations
