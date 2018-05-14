@@ -83,7 +83,7 @@ describe('Floret', () => {
             .expect('Content-Type', /json/)
             .expect(200)
             .then( (res) => {
-                expect(JSON.parse(res.text).status).equals('active');
+                expect(JSON.parse(res.text).ping.healthy).equals(true);
             })
     });
 
