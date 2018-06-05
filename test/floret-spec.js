@@ -647,7 +647,7 @@ describe('Floret', () => {
         });
 
         it('should set a payload', () => {
-            let old = pkg.payload;
+            let old = Object.create(pkg.payload);
             pkg.payload = {'baz': 'payload-2'};
             assert(old !== pkg.payload);
         });
