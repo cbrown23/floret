@@ -1,9 +1,0 @@
-{
-  "gatewayHost": "http://127.0.0.1",
-  "gatewayProxyPort": 8000,
-  "gatewayAdminPort": 8001,
-  "serviceName": "fooFloretService",
-  "serviceHost": "http://10.28.200.129",
-  "servicePort": 8087,
-  "serviceURI": "/foo-floret"
-}
