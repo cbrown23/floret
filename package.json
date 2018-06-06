@@ -10,10 +10,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "ssh://git@stash.acxiom.com:7999/at/floret.git"
+    "url": "https://github.com/Acxiom/floret.git"
   },
   "author": "Clint Brown",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "dependencies": {
     "ip": "^1.1.5",
     "koa": "^2.2.0",
