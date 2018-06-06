@@ -538,10 +538,8 @@ describe('Floret', () => {
             };
 
             let newConfig = new floret.Config(floretConfig);
-            //floret = new Floret();
             floret.configure(newConfig);
             gw = floret.gateway;
-            //require('./gateway.stubs')(sinon, floret);
 
         });
 
